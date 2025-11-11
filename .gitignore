@@ -58,3 +58,10 @@ coverage/
 *.pid.lock
 .npm
 .eslintcache
+
+# Scripts backups y archivos sensibles
+backups/
+ENV_SUMMARY.txt
+*.backup-*
+scripts/*.backup-*
+
