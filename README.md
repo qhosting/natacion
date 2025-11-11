@@ -13,11 +13,56 @@ Plataforma profesional de e-learning para tutorías de natación con gestión de
 
 ```
 elearning-natacion/
-├── backend/           # API REST con Node.js + Express
-├── frontend/          # React + Vite PWA
-├── docker-compose.yml # Orquestación local (desarrollo)
+├── backend/              # API REST con Node.js + Express
+│   └── Dockerfile        # Dockerfile del backend
+├── frontend/             # React + Vite PWA
+│   └── Dockerfile        # Dockerfile del frontend
+├── scripts/              # Scripts de utilidad (DB, backups, etc.)
+├── Dockerfile            # Dockerfile raíz (backend, para plataformas cloud)
+├── Dockerfile.frontend   # Dockerfile raíz alternativo (frontend)
+├── docker-compose.yml    # Orquestación completa (desarrollo)
+├── DOCKER.md            # 📘 Guía completa de Docker
 └── README.md
 ```
+
+## 🐳 Despliegue con Docker
+
+El proyecto incluye **múltiples opciones de Dockerfiles** para diferentes escenarios:
+
+- **`Dockerfile`** (raíz): Backend, para plataformas como Easypanel/Railway/Coolify
+- **`Dockerfile.frontend`** (raíz): Frontend, para despliegues separados
+- **`backend/Dockerfile`**: Backend, para Docker Compose o builds locales
+- **`frontend/Dockerfile`**: Frontend, para Docker Compose o builds locales
+- **`docker-compose.yml`**: ⭐ **Recomendado** - Levanta todo el stack completo
+
+### Inicio Rápido con Docker Compose
+
+```bash
+# 1. Configurar variables de entorno
+cp .env.example .env
+
+# 2. Iniciar todos los servicios
+docker-compose up -d
+
+# 3. Ejecutar migraciones
+docker exec -it elearning-backend npx prisma migrate deploy
+
+# 4. Acceder
+# Frontend: http://localhost
+# Backend: http://localhost:3000
+```
+
+### Builds Individuales
+
+```bash
+# Backend
+docker build -t elearning-backend .
+
+# Frontend
+docker build -f Dockerfile.frontend -t elearning-frontend .
+```
+
+**📘 Para guía completa de Docker, troubleshooting y despliegue en plataformas cloud, consulta [DOCKER.md](./DOCKER.md)**
 
 ## Funcionalidades
 
