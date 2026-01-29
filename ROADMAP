@@ -16,9 +16,10 @@ El objetivo de esta fase es asegurar la estabilidad de la versión 1.0 y facilit
 ## Fase 2: Experiencia de Usuario y Gamificación
 Mejorar la retención de usuarios y la experiencia de aprendizaje.
 
-- [ ] Sistema de certificaciones automáticas al completar cursos.
-- [ ] Implementación de Gamificación (Puntos, Insignias, Logros).
-- [ ] Foros de discusión o sección de comentarios por lección.
+- [x] Sistema de certificaciones automáticas al completar cursos.
+- [x] Implementación de Gamificación (Sistema de Puntos).
+- [ ] Implementación de Gamificación (Insignias y Logros).
+- [x] Foros de discusión o sección de comentarios por lección.
 - [ ] Notificaciones Push para la PWA (recordatorios, nuevos cursos).
 - [ ] Buscador avanzado de cursos y lecciones.
 

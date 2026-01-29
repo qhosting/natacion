@@ -84,4 +84,18 @@ export const adminService = {
   updateRole: (id, role) => api.put(`/admin/usuarios/${id}/role`, { role })
 };
 
+export const comentarioService = {
+  create: (data) => api.post('/comentarios', data),
+  getByLeccion: (leccionId) => api.get(`/comentarios/leccion/${leccionId}`),
+  delete: (id) => api.delete(`/comentarios/${id}`)
+};
+
+export const gamificationService = {
+  getStats: () => api.get('/gamification/stats')
+};
+
+export const certificadoService = {
+  download: (cursoId) => api.get(`/certificados/${cursoId}`, { responseType: 'blob' })
+};
+
 export default api;

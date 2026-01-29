@@ -14,6 +14,9 @@ import mediaRoutes from './routes/media.routes.js';
 import inscripcionRoutes from './routes/inscripcion.routes.js';
 import progresoRoutes from './routes/progreso.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import comentarioRoutes from './routes/comentario.routes.js';
+import certificadoRoutes from './routes/certificado.routes.js';
+import gamificationRoutes from './routes/gamification.routes.js';
 
 // Configuración
 dotenv.config();
@@ -44,6 +47,9 @@ app.use('/api/media', mediaRoutes);
 app.use('/api/inscripciones', inscripcionRoutes);
 app.use('/api/progreso', progresoRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/comentarios', comentarioRoutes);
+app.use('/api/certificados', certificadoRoutes);
+app.use('/api/gamification', gamificationRoutes);
 
 // Ruta de prueba
 app.get('/api/health', (req, res) => {

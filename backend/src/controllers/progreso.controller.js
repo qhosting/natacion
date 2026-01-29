@@ -59,6 +59,18 @@ export const marcarLeccionCompletada = async (req, res) => {
       });
     }
 
+    // Verificar si ya estaba completada para no dar puntos dobles
+    const progresoExistente = await prisma.progreso.findUnique({
+      where: {
+        userId_leccionId: {
+          userId,
+          leccionId: parseInt(leccionId)
+        }
+      }
+    });
+
+    const esPrimeraVez = !progresoExistente || !progresoExistente.completado;
+
     // Crear o actualizar el progreso
     const progreso = await prisma.progreso.upsert({
       where: {
@@ -76,6 +88,14 @@ export const marcarLeccionCompletada = async (req, res) => {
         completado: true
       }
     });
+
+    // Gamificación: Otorgar puntos si es la primera vez
+    if (esPrimeraVez) {
+      await prisma.user.update({
+        where: { id: userId },
+        data: { puntos: { increment: 10 } }
+      });
+    }
 
     // Calcular el progreso total del curso
     const totalLecciones = leccion.etapa.curso.etapas.reduce((sum, etapa) => {
@@ -137,8 +157,22 @@ export const marcarLeccionCompletada = async (req, res) => {
       timestamp: new Date().toISOString()
     });
 
-    // Si el curso se completó, enviar webhook adicional
+    // Si el curso se completó, enviar webhook adicional y generar certificado
     if (cursoCompletado && !inscripcion.completado) {
+      // Generar registro de certificado
+      await prisma.certificado.create({
+        data: {
+          userId,
+          cursoId
+        }
+      });
+
+      // Bonus de puntos por completar curso
+      await prisma.user.update({
+        where: { id: userId },
+        data: { puntos: { increment: 100 } }
+      });
+
       await sendWebhook('curso.completado', {
         userId,
         userEmail: inscripcionActualizada.user.email,
