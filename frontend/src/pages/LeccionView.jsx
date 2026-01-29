@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { leccionService, progresoService } from '../services/api';
 import { VideoPlayer } from '../components/VideoPlayer';
 import Comentarios from '../components/Comentarios';
+import Quiz from '../components/Quiz';
 
 const LeccionView = () => {
   const { id } = useParams();
@@ -111,6 +112,7 @@ const LeccionView = () => {
             {completando ? 'Marcando...' : 'Marcar como Completada'}
           </button>
         </div>
+        <Quiz leccionId={id} onCompleted={() => alert('¡Has completado el quiz y ganado puntos extra!')} />
 
         <Comentarios leccionId={id} />
       </div>

@@ -34,7 +34,7 @@ Integrar capacidades comerciales y expandir el alcance de la plataforma.
 ## Fase 4: Funcionalidades Avanzadas y Móvil
 Llevar la plataforma al siguiente nivel técnico y de accesibilidad.
 
-- [ ] Aplicación móvil nativa (React Native) reutilizando el backend.
-- [ ] Clases en vivo (Live Streaming) integradas en la plataforma.
-- [ ] Sistema de evaluaciones y quizzes interactivos.
-- [ ] Dashboard de analíticas avanzadas para administradores (retención, progreso detallado).
+- [x] Clases en vivo (Integración de links de Zoom/YouTube/Jitsi).
+- [x] Sistema de evaluaciones y quizzes interactivos.
+- [x] Dashboard de analíticas avanzadas para administradores (gráficos y KPIs).
+- [ ] Aplicación móvil nativa (React Native).

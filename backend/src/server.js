@@ -17,6 +17,9 @@ import adminRoutes from './routes/admin.routes.js';
 import comentarioRoutes from './routes/comentario.routes.js';
 import certificadoRoutes from './routes/certificado.routes.js';
 import gamificationRoutes from './routes/gamification.routes.js';
+import quizRoutes from './routes/quiz.routes.js';
+import liveRoutes from './routes/live.routes.js';
+import analyticsRoutes from './routes/analytics.routes.js';
 
 // Configuración
 dotenv.config();
@@ -50,6 +53,9 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/comentarios', comentarioRoutes);
 app.use('/api/certificados', certificadoRoutes);
 app.use('/api/gamification', gamificationRoutes);
+app.use('/api/quizzes', quizRoutes);
+app.use('/api/live', liveRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Ruta de prueba
 app.get('/api/health', (req, res) => {

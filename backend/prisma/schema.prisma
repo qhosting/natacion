@@ -38,6 +38,7 @@ model User {
   comentarios   Comentario[]
   insignias     UserInsignia[]
   certificados  Certificado[]
+  intentosQuiz  IntentoQuiz[]
 
   @@map("users")
 }
@@ -56,6 +57,7 @@ model Curso {
   etapas        Etapa[]
   inscripciones Inscripcion[]
   certificados  Certificado[]
+  liveSessions  LiveSession[]
 
   @@map("cursos")
 }
@@ -90,6 +92,7 @@ model Leccion {
   medios      Media[]
   progresos   Progreso[]
   comentarios Comentario[]
+  quiz        Quiz?
 
   @@map("lecciones")
 }
@@ -203,4 +206,67 @@ model Certificado {
 
   @@unique([userId, cursoId])
   @@map("certificados")
+}
+
+model LiveSession {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descripcion String?
+  fechaInicio DateTime
+  urlLink     String   // Zoom, Jitsi, YouTube link
+  cursoId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  curso       Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+
+  @@map("live_sessions")
+}
+
+model Quiz {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  leccionId Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  leccion   Leccion  @relation(fields: [leccionId], references: [id], onDelete: Cascade)
+  preguntas Pregunta[]
+  intentos  IntentoQuiz[]
+
+  @@map("quizzes")
+}
+
+model Pregunta {
+  id      Int      @id @default(autoincrement())
+  texto   String
+  quizId  Int
+  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  opciones Opcion[]
+
+  @@map("preguntas")
+}
+
+model Opcion {
+  id         Int      @id @default(autoincrement())
+  texto      String
+  esCorrecta Boolean  @default(false)
+  preguntaId Int
+  pregunta   Pregunta @relation(fields: [preguntaId], references: [id], onDelete: Cascade)
+
+  @@map("opciones")
+}
+
+model IntentoQuiz {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  quizId    Int
+  puntaje   Int      // Porcentaje 0-100
+  aprobado  Boolean
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@map("intentos_quiz")
 }
