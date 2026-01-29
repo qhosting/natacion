@@ -1,0 +1,39 @@
+# Roadmap del Proyecto E-Learning Natación
+
+Este documento describe la hoja de ruta estratégica para el desarrollo y evolución de la plataforma de E-Learning de Natación.
+
+## Fase 1: Consolidación y Despliegue (Estado Actual)
+El objetivo de esta fase es asegurar la estabilidad de la versión 1.0 y facilitar su despliegue en entornos productivos.
+
+- [x] Desarrollo del Backend (Node.js, Express, Prisma).
+- [x] Desarrollo del Frontend (React, Vite, PWA).
+- [x] Implementación de Streaming HLS y protección de contenido.
+- [x] Conteneurización completa (Docker, Docker Compose).
+- [x] Documentación básica (README, DOCKER, DEPLOYMENT).
+- [ ] Configuración de entorno de producción (HTTPS, Dominios).
+- [ ] Pruebas de carga y optimización de base de datos.
+
+## Fase 2: Experiencia de Usuario y Gamificación
+Mejorar la retención de usuarios y la experiencia de aprendizaje.
+
+- [ ] Sistema de certificaciones automáticas al completar cursos.
+- [ ] Implementación de Gamificación (Puntos, Insignias, Logros).
+- [ ] Foros de discusión o sección de comentarios por lección.
+- [ ] Notificaciones Push para la PWA (recordatorios, nuevos cursos).
+- [ ] Buscador avanzado de cursos y lecciones.
+
+## Fase 3: Monetización y Expansión
+Integrar capacidades comerciales y expandir el alcance de la plataforma.
+
+- [ ] Integración con pasarelas de pago (Stripe, MercadoPago).
+- [ ] Sistema de suscripciones recurrentes.
+- [ ] Panel de análisis de ventas y conversiones.
+- [ ] Soporte multi-idioma (i18n).
+
+## Fase 4: Funcionalidades Avanzadas y Móvil
+Llevar la plataforma al siguiente nivel técnico y de accesibilidad.
+
+- [ ] Aplicación móvil nativa (React Native) reutilizando el backend.
+- [ ] Clases en vivo (Live Streaming) integradas en la plataforma.
+- [ ] Sistema de evaluaciones y quizzes interactivos.
+- [ ] Dashboard de analíticas avanzadas para administradores (retención, progreso detallado).
