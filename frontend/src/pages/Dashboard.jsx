@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { cursoService, inscripcionService } from '../services/api';
+import { cursoService, inscripcionService, gamificationService, certificadoService } from '../services/api';
 
 const Dashboard = () => {
   const { user, logout, isAdmin } = useAuth();
   const [cursos, setCursos] = useState([]);
   const [inscripciones, setInscripciones] = useState([]);
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -15,17 +16,35 @@ const Dashboard = () => {
 
   const loadData = async () => {
     try {
-      const [cursosRes, inscripcionesRes] = await Promise.all([
+      const [cursosRes, inscripcionesRes, statsRes] = await Promise.all([
         cursoService.getAll(),
-        inscripcionService.getMisInscripciones()
+        inscripcionService.getMisInscripciones(),
+        gamificationService.getStats()
       ]);
 
       setCursos(cursosRes.data.data);
       setInscripciones(inscripcionesRes.data.data);
+      setStats(statsRes.data.data);
     } catch (error) {
       console.error('Error cargando datos:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDownloadCertificate = async (cursoId) => {
+    try {
+      const response = await certificadoService.download(cursoId);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `certificado-curso-${cursoId}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (error) {
+      console.error('Error downloading certificate:', error);
+      alert('Error descargando el certificado. Asegúrate de haber completado el curso.');
     }
   };
 
@@ -56,7 +75,9 @@ const Dashboard = () => {
       <nav className="navbar">
         <div>
           <h2 style={{ color: '#0284c7' }}>E-Learning Natación</h2>
-          <p style={{ fontSize: '14px', color: '#64748b' }}>Bienvenido, {user.nombre}</p>
+          <p style={{ fontSize: '14px', color: '#64748b' }}>
+            Bienvenido, {user.nombre} | ⭐ Puntos: {stats?.puntos || 0}
+          </p>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           {isAdmin && (
@@ -71,6 +92,24 @@ const Dashboard = () => {
       </nav>
 
       <div className="container">
+        {/* Stats Section */}
+        {stats && (
+          <div className="grid grid-cols-3" style={{ marginBottom: '32px', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))' }}>
+            <div className="card" style={{ textAlign: 'center', backgroundColor: '#f0f9ff' }}>
+              <h3>⭐ Puntos</h3>
+              <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#0284c7' }}>{stats.puntos}</p>
+            </div>
+            <div className="card" style={{ textAlign: 'center', backgroundColor: '#f0fdf4' }}>
+              <h3>🏆 Cursos Completados</h3>
+              <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#16a34a' }}>{stats.cursosCompletados}</p>
+            </div>
+            <div className="card" style={{ textAlign: 'center', backgroundColor: '#fff7ed' }}>
+              <h3>✅ Lecciones</h3>
+              <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#ea580c' }}>{stats.leccionesCompletadas}</p>
+            </div>
+          </div>
+        )}
+
         <h1 style={{ marginBottom: '24px' }}>Mis Cursos Inscritos</h1>
         {inscripciones.length === 0 ? (
           <p>No estás inscrito en ningún curso todavía.</p>
@@ -86,7 +125,17 @@ const Dashboard = () => {
                   </div>
                   <p style={{ fontSize: '14px', marginTop: '8px' }}>Progreso: {insc.progreso.toFixed(1)}%</p>
                 </div>
-                {insc.completado && <span className="badge badge-success" style={{ marginTop: '8px' }}>Completado</span>}
+                {insc.completado && (
+                  <div style={{ marginTop: '8px', display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <span className="badge badge-success">Completado</span>
+                    <button
+                      onClick={() => handleDownloadCertificate(insc.curso.id)}
+                      style={{ fontSize: '12px', color: '#0284c7', textDecoration: 'underline', border: 'none', background: 'none', cursor: 'pointer' }}
+                    >
+                      Descargar Certificado
+                    </button>
+                  </div>
+                )}
                 <Link to={`/curso/${insc.curso.id}`} className="btn btn-primary" style={{ marginTop: '16px', width: '100%' }}>
                   Continuar
                 </Link>

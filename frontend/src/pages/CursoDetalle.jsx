@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { cursoService, inscripcionService } from '../services/api';
+import LiveSessions from '../components/LiveSessions';
 
 const CursoDetalle = () => {
   const { id } = useParams();
@@ -54,6 +55,8 @@ const CursoDetalle = () => {
       <div className="container">
         {curso.imagen && <img src={curso.imagen} alt={curso.titulo} style={{ width: '100%', maxHeight: '300px', objectFit: 'cover', borderRadius: '12px', marginBottom: '24px' }} />}
         
+        <LiveSessions />
+
         <div className="card">
           <h1>{curso.titulo}</h1>
           <p style={{ marginTop: '16px', color: '#64748b' }}>{curso.descripcion}</p>

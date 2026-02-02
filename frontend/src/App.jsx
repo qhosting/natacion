@@ -15,6 +15,7 @@ import AdminEtapas from './pages/admin/AdminEtapas';
 import AdminLecciones from './pages/admin/AdminLecciones';
 import AdminMedias from './pages/admin/AdminMedias';
 import AdminUsuarios from './pages/admin/AdminUsuarios';
+import AdminAnalytics from './pages/admin/AdminAnalytics';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/admin/lecciones/:etapaId" element={<AdminRoute><AdminLecciones /></AdminRoute>} />
           <Route path="/admin/medias/:leccionId" element={<AdminRoute><AdminMedias /></AdminRoute>} />
           <Route path="/admin/usuarios" element={<AdminRoute><AdminUsuarios /></AdminRoute>} />
+          <Route path="/admin/analytics" element={<AdminRoute><AdminAnalytics /></AdminRoute>} />
           
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

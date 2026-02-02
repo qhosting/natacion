@@ -12,21 +12,26 @@
     "prisma:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio"
   },
-  "keywords": ["elearning", "natacion", "api"],
+  "keywords": [
+    "elearning",
+    "natacion",
+    "api"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "helmet": "^7.1.0",
-    "dotenv": "^16.3.1",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
     "@prisma/client": "^5.7.0",
-    "multer": "^1.4.5-lts.1",
-    "fluent-ffmpeg": "^2.1.2",
     "axios": "^1.6.2",
-    "express-validator": "^7.0.1"
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "fluent-ffmpeg": "^2.1.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "pdfkit": "^0.17.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.2",

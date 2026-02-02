@@ -84,4 +84,34 @@ export const adminService = {
   updateRole: (id, role) => api.put(`/admin/usuarios/${id}/role`, { role })
 };
 
+export const comentarioService = {
+  create: (data) => api.post('/comentarios', data),
+  getByLeccion: (leccionId) => api.get(`/comentarios/leccion/${leccionId}`),
+  delete: (id) => api.delete(`/comentarios/${id}`)
+};
+
+export const gamificationService = {
+  getStats: () => api.get('/gamification/stats')
+};
+
+export const certificadoService = {
+  download: (cursoId) => api.get(`/certificados/${cursoId}`, { responseType: 'blob' })
+};
+
+export const quizService = {
+  getByLeccion: (leccionId) => api.get(`/quizzes/leccion/${leccionId}`),
+  submit: (data) => api.post('/quizzes/submit', data),
+  create: (data) => api.post('/quizzes', data)
+};
+
+export const liveService = {
+  getAll: () => api.get('/live'),
+  create: (data) => api.post('/live', data),
+  delete: (id) => api.delete(`/live/${id}`)
+};
+
+export const analyticsService = {
+  getDashboard: () => api.get('/analytics/dashboard')
+};
+
 export default api;

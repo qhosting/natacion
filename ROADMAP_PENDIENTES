@@ -1,0 +1,36 @@
+# Tareas Pendientes (Backlog)
+
+Lista detallada de funcionalidades y mejoras técnicas pendientes de implementación.
+
+## Prioridad Alta
+
+- [ ] **Pasarelas de Pago**: Integrar Stripe y/o MercadoPago para el cobro de cursos.
+- [ ] **Certificados**: Generación de PDFs al completar el 100% de un curso.
+- [ ] **Seguridad en Producción**: Revisión de headers de seguridad, rate limiting y secretos.
+- [ ] **Evaluaciones**: Añadir soporte para exámenes tipo test al final de las etapas.
+
+## Prioridad Media
+
+- [ ] **Gamificación**:
+    - [ ] Sistema de puntos por lección vista.
+    - [ ] Medallas por completar cursos o rachas de aprendizaje.
+- [ ] **Comunidad**:
+    - [ ] Sección de preguntas y respuestas debajo de los videos.
+    - [ ] Foro general para alumnos.
+- [ ] **Notificaciones**:
+    - [ ] Notificaciones push en web (Service Workers).
+    - [ ] Emails transaccionales (recuperar contraseña, bienvenida).
+
+## Prioridad Baja / Mejoras Técnicas
+
+- [ ] **Analíticas**: Dashboard para ver usuarios activos, lecciones más vistas, etc.
+- [ ] **Mobile App**: Portar el frontend a React Native.
+- [ ] **Live Streaming**: Integración con servicios de streaming para clases en directo.
+- [ ] **Tests**: Aumentar cobertura de pruebas unitarias y de integración (Jest/Vitest).
+- [ ] **CI/CD**: Configurar pipelines de despliegue automático (GitHub Actions).
+
+## Correcciones / Deuda Técnica
+
+- [ ] Revisar y optimizar consultas a base de datos (N+1 problem).
+- [ ] Mejorar accesibilidad (A11y) en el frontend.
+- [ ] Refactorizar componentes grandes en el frontend.

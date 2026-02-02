@@ -31,10 +31,10 @@ const AdminPanel = () => {
             <p style={{ marginTop: '12px', color: '#64748b' }}>Administrar usuarios y roles</p>
           </Link>
 
-          <div className="card">
-            <h2 style={{ color: '#0284c7' }}>Estadísticas</h2>
-            <p style={{ marginTop: '12px', color: '#64748b' }}>Ver métricas de la plataforma</p>
-          </div>
+          <Link to="/admin/analytics" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h2 style={{ color: '#0284c7' }}>Analíticas Avanzadas</h2>
+            <p style={{ marginTop: '12px', color: '#64748b' }}>Ver métricas, gráficos y KPIs</p>
+          </Link>
         </div>
 
         <div className="card" style={{ marginTop: '32px' }}>

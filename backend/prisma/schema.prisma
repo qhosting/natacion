@@ -28,12 +28,17 @@ model User {
   nombre    String
   apellido  String?
   role      Role     @default(ALUMNO)
+  puntos    Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // Relaciones
   inscripciones Inscripcion[]
   progresos     Progreso[]
+  comentarios   Comentario[]
+  insignias     UserInsignia[]
+  certificados  Certificado[]
+  intentosQuiz  IntentoQuiz[]
 
   @@map("users")
 }
@@ -51,6 +56,8 @@ model Curso {
   // Relaciones
   etapas        Etapa[]
   inscripciones Inscripcion[]
+  certificados  Certificado[]
+  liveSessions  LiveSession[]
 
   @@map("cursos")
 }
@@ -81,9 +88,11 @@ model Leccion {
   updatedAt   DateTime @updatedAt
 
   // Relaciones
-  etapa     Etapa      @relation(fields: [etapaId], references: [id], onDelete: Cascade)
-  medios    Media[]
-  progresos Progreso[]
+  etapa       Etapa        @relation(fields: [etapaId], references: [id], onDelete: Cascade)
+  medios      Media[]
+  progresos   Progreso[]
+  comentarios Comentario[]
+  quiz        Quiz?
 
   @@map("lecciones")
 }
@@ -139,4 +148,125 @@ model Progreso {
 
   @@unique([userId, leccionId])
   @@map("progresos")
+}
+
+model Comentario {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.Text
+  userId    Int
+  leccionId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  leccion Leccion @relation(fields: [leccionId], references: [id], onDelete: Cascade)
+
+  @@map("comentarios")
+}
+
+model Insignia {
+  id          Int      @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  icono       String?
+  criterio    String   // e.g. "curso_completado", "puntos_1000"
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users       UserInsignia[]
+
+  @@map("insignias")
+}
+
+model UserInsignia {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  insigniaId Int
+  awardedAt  DateTime @default(now())
+
+  // Relaciones
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  insignia Insignia @relation(fields: [insigniaId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, insigniaId])
+  @@map("users_insignias")
+}
+
+model Certificado {
+  id            String   @id @default(uuid()) // UUID for public verification URL
+  userId        Int
+  cursoId       Int
+  fechaEmision  DateTime @default(now())
+  pdfUrl        String?  // If we store the generated PDF
+
+  // Relaciones
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  curso Curso @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, cursoId])
+  @@map("certificados")
+}
+
+model LiveSession {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descripcion String?
+  fechaInicio DateTime
+  urlLink     String   // Zoom, Jitsi, YouTube link
+  cursoId     Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  curso       Curso    @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+
+  @@map("live_sessions")
+}
+
+model Quiz {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  leccionId Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  leccion   Leccion  @relation(fields: [leccionId], references: [id], onDelete: Cascade)
+  preguntas Pregunta[]
+  intentos  IntentoQuiz[]
+
+  @@map("quizzes")
+}
+
+model Pregunta {
+  id      Int      @id @default(autoincrement())
+  texto   String
+  quizId  Int
+  quiz    Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  opciones Opcion[]
+
+  @@map("preguntas")
+}
+
+model Opcion {
+  id         Int      @id @default(autoincrement())
+  texto      String
+  esCorrecta Boolean  @default(false)
+  preguntaId Int
+  pregunta   Pregunta @relation(fields: [preguntaId], references: [id], onDelete: Cascade)
+
+  @@map("opciones")
+}
+
+model IntentoQuiz {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  quizId    Int
+  puntaje   Int      // Porcentaje 0-100
+  aprobado  Boolean
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@map("intentos_quiz")
 }
